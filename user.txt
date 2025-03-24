@@ -1,0 +1,7 @@
+admin,admin123,admin
+manager,Manager123,manager
+john_chef,jonny123@@,chef
+max,max999@@,customer
+laxman,laxman333@@,customer
+sita,sita123,chef
+lax,lax999,chef
