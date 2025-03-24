@@ -1,2 +1,4 @@
-march,20000
-january,10000
+march-10,john_chef,20000
+january-20,min_chef,10000
+march-5,john-chef,1000
+january-20,jonny,100
