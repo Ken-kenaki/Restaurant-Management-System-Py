@@ -180,7 +180,11 @@ def manager():
         print("3. View Sales Report")
         print("4. Add Sales Entry")
         print("5. View Customer Feedback")
-        print("6. Log Out")
+        print("6. View Menu")
+        print("7. Add Menu Item")
+        print("8. Edit Menu Item")
+        print("9. Delete Menu Item")
+        print("10. Log Out")
 
         choice = input("Enter your choice: ").strip()
 
@@ -195,6 +199,14 @@ def manager():
         elif choice == "5":
             view_feedback()  # View customer feedback
         elif choice == "6":
+            view_menu()  # View menu
+        elif choice == "7":
+            add_menu_item()  # Add menu item
+        elif choice == "8":
+            edit_menu_item()  # Edit menu item
+        elif choice == "9":
+            delete_menu_item()  # Delete menu item
+        elif choice == "10":
             print("Logging out...")
             break
         else:
@@ -292,6 +304,95 @@ def view_feedback():
         print("No feedback data found.")
 
 
+
+# View Menu function
+def view_menu():
+    print("\nMenu:")
+    try:
+        with open("menu.txt", "r") as file:
+            menu_items = file.readlines()
+            if menu_items:
+                for item in menu_items:
+                    print(item.strip())
+            else:
+                print("No menu items found.")
+    except FileNotFoundError:
+        print("Menu file not found.")
+
+
+# Add Menu Item function
+def add_menu_item():
+    print("\nAdd Menu Item:")
+    item_name = input("Enter the name of the item: ").strip()
+    item_description = input("Enter the description of the item: ").strip()
+    item_price = input("Enter the price of the item: ").strip()
+
+    with open("menu.txt", "a") as file:
+        file.write(f"{item_name},{item_description},{item_price}\n")
+    
+    print(f"Menu item '{item_name}' added successfully.")
+
+
+# Edit Menu Item function
+def edit_menu_item():
+    print("\nEdit Menu Item:")
+    item_name = input("Enter the name of the item to edit: ").strip()
+
+    try:
+        with open("menu.txt", "r") as file:
+            menu_items = file.readlines()
+
+        item_found = False
+        with open("menu.txt", "w") as file:
+            for item in menu_items:
+                current_name, current_description, current_price = item.strip().split(",")
+                if current_name == item_name:
+                    item_found = True
+                    new_description = input("Enter new description (leave blank to keep unchanged): ").strip()
+                    new_price = input("Enter new price (leave blank to keep unchanged): ").strip()
+
+                    if new_description:
+                        current_description = new_description
+                    if new_price:
+                        current_price = new_price
+
+                    file.write(f"{current_name},{current_description},{current_price}\n")
+                    print(f"Menu item '{item_name}' edited successfully.")
+                else:
+                    file.write(item)
+            
+        if not item_found:
+            print(f"Menu item '{item_name}' not found.")
+    except FileNotFoundError:
+        print("Menu file not found.")
+
+
+# Delete Menu Item function
+def delete_menu_item():
+    print("\nDelete Menu Item:")
+    item_name = input("Enter the name of the item to delete: ").strip()
+
+    try:
+        with open("menu.txt", "r") as file:
+            menu_items = file.readlines()
+
+        item_found = False
+        with open("menu.txt", "w") as file:
+            for item in menu_items:
+                current_name, _, _ = item.strip().split(",")
+                if current_name == item_name:
+                    item_found = True
+                    print(f"Menu item '{item_name}' deleted successfully.")
+                    continue  # Skip writing this item to effectively delete it
+                else:
+                    file.write(item)
+            
+        if not item_found:
+            print(f"Menu item '{item_name}' not found.")
+    except FileNotFoundError:
+        print("Menu file not found.")
+
+
 # Chef
 def chef():
     chefUserName = input("Enter your chef name: ")
@@ -384,7 +485,8 @@ def customer():
         print("1. Place Order")
         print("2. View Order Status")
         print("3. Provide Feedback")
-        print("4. Log Out")
+        print("4. View menu")
+        print("5. Log Out")
         
         choice = input("Enter your choice: ").strip()
         if choice == "1":
@@ -393,7 +495,9 @@ def customer():
             view_order_status()
         elif choice == "3":
             provide_feedback()
-        elif choice == "4":
+        elif choice =="4":
+            view_menu_customer()
+        elif choice == "5":
             print("Logging out...")
             break
         else:
@@ -404,7 +508,7 @@ def place_order():
     username = input("Enter your username: ").strip()
     order_details = input("Enter your order: ").strip()
     with open("orders.txt", "a") as file:
-        file.write(f"\n{username},{order_details},pending")
+        file.write(f"{username},{order_details},pending\n")
     print("Order placed successfully!")
 
 # View Order Status
@@ -428,9 +532,17 @@ def view_order_status():
 def provide_feedback():
     username = input("Enter your username: ").strip()
     feedback_text = input("Enter your feedback: ").strip()
+    ratings = int(input("Enter your feedback: "))
     with open("feedback.txt", "a") as file:
-        file.write(f"\n{username},{feedback_text}")
+        file.write(f"\n{username},{feedback_text},{ratings}")
     print("Thank you for your feedback!")
+
+def view_menu_customer():
+    with open("menu.txt", 'r') as f:
+        menu = f.readlines()
+    for item in menu:
+        print(item.upper().strip())
+
 
 
 #Authentication
@@ -476,8 +588,6 @@ def login():
         with open("user.txt", 'r') as users:
             for user in users:
                 userName, userPassword, role = user.strip().split(",")
-
-                print(role)
 
                 # Checking username and password
                 if username == userName and password == userPassword:

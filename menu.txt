@@ -1,0 +1,4 @@
+Pizza,We serve very delicious pizza here,100
+Fried Rice,Try our chicken/motton/pork fried rice.,200
+Burger,We serve burger.,20
+chowmein,We serve delicious chowmein,30

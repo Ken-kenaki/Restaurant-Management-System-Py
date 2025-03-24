@@ -1,4 +1,6 @@
-march-10,john_chef,20000
-january-20,min_chef,10000
-march-5,john-chef,1000
-january-20,jonny,100
+july-12,sita,1000
+january-2,sita,2000
+june-1,sita,30
+march-19,malaka,100
+march-30,malaka,30
+march-22,malaka,100

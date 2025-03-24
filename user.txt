@@ -1,9 +1,9 @@
-admin,admin123,admin
+admin,admin321,admin
 manager,manager123,manager
-john_chef,jonny123@@,chef
-min_chef,min123@@,chef
-max,max999@@,customer
-laxman,laxman333@@,customer
 sita,sita123,chef
-laxman-d,laxman123@,admin
-hari,hari123,manager
+malaka,malaka123,chef
+john,john123,customer
+max,max123,customer
+ken,ken123,customer
+amosh,amosh222,customer
+malik,malik123,customer

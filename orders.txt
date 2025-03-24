@@ -1,4 +1,7 @@
 ken,burger,Completed
 max,Burger,Completed
-max,Pizza,pending
-max,fried rice,pending
+max,Pizza,Completed
+max,fried rice,Completed
+max,Momo,Completed
+amosh,Burger,pending
+amosh,Pizza,pending
