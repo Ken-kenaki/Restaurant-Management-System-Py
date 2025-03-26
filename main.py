@@ -184,7 +184,9 @@ def manager():
         print("7. Add Menu Item")
         print("8. Edit Menu Item")
         print("9. Delete Menu Item")
-        print("10. Log Out")
+        print("10.View Ingredients Item")
+        print("11.Approve Ingredients")
+        print("12. Log Out")
 
         choice = input("Enter your choice: ").strip()
 
@@ -207,6 +209,10 @@ def manager():
         elif choice == "9":
             delete_menu_item()  # Delete menu item
         elif choice == "10":
+            view_ingredients()  #Viewing Ingredients
+        elif choice == "11":
+            approve_ingredient() #Approving Ingredients
+        elif choice == "12":
             print("Logging out...")
             break
         else:
@@ -393,6 +399,55 @@ def delete_menu_item():
         print("Menu file not found.")
 
 
+#view Ingredient.........
+def view_ingredients():
+    """Manager can view all ingredients"""
+    try:
+        with open("ingredients.txt", "r") as file:
+            ingredients = file.readlines()
+        if not ingredients:
+            print("No ingredients added yet.")
+            return
+        print("\nIngredient List:")
+        for line in ingredients:
+            name, quantity, status, added_by = line.strip().split(",")
+            print(f"{name} - {quantity} - Status: {status} (Added by: {added_by})")
+
+    except FileNotFoundError:
+        print("No ingredients found.")
+
+
+# Approve ingredient....
+def approve_ingredient():
+    """Manager can approve an ingredient"""
+    ingredient_name = input("Enter ingredient name to approve: ").strip()
+
+    updated_lines = []
+    found = False
+
+    try:
+        with open("ingredients.txt", "r") as file:
+            lines = file.readlines()
+
+        with open("ingredients.txt", "w") as file:
+            for line in lines:
+                name, quantity, status, added_by = line.strip().split(",")
+                if name == ingredient_name and status == "pending":
+                    updated_lines.append(f"{name},{quantity},approved,{added_by}\n")
+                    found = True
+                    print(f"{ingredient_name} has been approved!")
+                else:
+                    updated_lines.append(line)
+
+            file.writelines(updated_lines)
+
+    except FileNotFoundError:
+        print("No ingredients found.")
+
+    if not found:
+        print("Ingredient not found or already approved.")
+
+
 # Chef
 def chef():
     chefUserName = input("Enter your chef name: ")
@@ -401,7 +456,10 @@ def chef():
         print("1. View Orders")
         print("2. Update Order Status")
         print("3. View Sales Report")
-        print("4. Log Out")
+        print("4. Add Ingredients")
+        print("5. Edit ingredents")
+        print("6. Delete Ingredients")
+        print("7. Log Out")
 
         choice = input("Enter your choice: ").strip()
 
@@ -412,6 +470,12 @@ def chef():
         elif choice == "3":
             view_chef_sales(chefUserName)
         elif choice == "4":
+            add_ingredient(chefUserName)
+        elif choice == "5":
+            edit_ingredient(chefUserName)
+        elif choice == "6":
+            delete_ingredient(chefUserName)
+        elif choice == "7":
             print("Logging out...")
             break
         else:
@@ -456,6 +520,76 @@ def update_order_status():
 
     if not found:
         print(f"No pending order found for {customer}.")
+
+
+def add_ingredient(chef_name):
+    """Chef can add an ingredient"""
+    ingredient_name = input("Enter ingredient name: ").strip()
+    quantity = input("Enter quantity (e.g., 2kg, 500g): ").strip()
+
+    with open("ingredients.txt", "a") as file:
+        file.write(f"{ingredient_name},{quantity},pending,{chef_name}\n")
+
+    print(f"{ingredient_name} added successfully! Waiting for manager approval.")
+
+def edit_ingredient(chef_name):
+    """Chef can edit an ingredient they added"""
+    ingredient_name = input("Enter the ingredient name to edit: ").strip()
+    new_quantity = input("Enter new quantity: ").strip()
+
+    updated_lines = []
+    found = False
+
+    try:
+        with open("ingredients.txt", "r") as file:
+            lines = file.readlines()
+
+        with open("ingredients.txt", "w") as file:
+            for line in lines:
+                name, quantity, status, added_by = line.strip().split(",")
+                if name == ingredient_name and added_by == chef_name:
+                    updated_lines.append(f"{name},{new_quantity},{status},{added_by}\n")
+                    found = True
+                    print(f"{ingredient_name} updated successfully!")
+                else:
+                    updated_lines.append(line)
+
+            file.writelines(updated_lines)
+
+    except FileNotFoundError:
+        print("No ingredient record found.")
+
+    if not found:
+        print("Ingredient not found or you don't have permission to edit.")
+
+def delete_ingredient(chef_name):
+    """Chef can delete an ingredient they added"""
+    ingredient_name = input("Enter the ingredient name to delete: ").strip()
+
+    updated_lines = []
+    found = False
+
+    try:
+        with open("ingredients.txt", "r") as file:
+            lines = file.readlines()
+
+        with open("ingredients.txt", "w") as file:
+            for line in lines:
+                name, quantity, status, added_by = line.strip().split(",")
+                if name == ingredient_name and added_by == chef_name:
+                    found = True
+                    print(f"{ingredient_name} deleted successfully!")
+                else:
+                    updated_lines.append(line)
+
+            file.writelines(updated_lines)
+
+    except FileNotFoundError:
+        print("No ingredient record found.")
+
+    if not found:
+        print("Ingredient not found or you don't have permission to delete.")
+
 
 
 
@@ -532,7 +666,7 @@ def view_order_status():
 def provide_feedback():
     username = input("Enter your username: ").strip()
     feedback_text = input("Enter your feedback: ").strip()
-    ratings = int(input("Enter your feedback: "))
+    ratings = input("Enter your ratings: ")
     with open("feedback.txt", "a") as file:
         file.write(f"\n{username},{feedback_text},{ratings}")
     print("Thank you for your feedback!")

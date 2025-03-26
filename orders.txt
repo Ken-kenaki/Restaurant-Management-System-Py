@@ -5,3 +5,4 @@ max,fried rice,Completed
 max,Momo,Completed
 amosh,Burger,pending
 amosh,Pizza,pending
+diwas,Chowmein,pending

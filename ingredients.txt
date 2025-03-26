@@ -1,0 +1,2 @@
+Salt,1kg,approved,sita
+Sugar,1kg,pending,malaka
