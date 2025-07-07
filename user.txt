@@ -7,6 +7,7 @@ max,max123,customer
 ken,ken123,customer
 amosh,amosh222,customer
 malik,malik123,customer
-diwas,diwas222,customer
+diwas,diwas222,cusstomer
 jan,jan222,admin
-mia-didi,mia897,chef
+prashna,prashn123,manager
+lax,lax222,admin

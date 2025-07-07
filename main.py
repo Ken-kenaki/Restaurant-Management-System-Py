@@ -174,7 +174,7 @@ def editStaff():
 # Manager
 def manager():
     while True:
-        print("\nManager Menu:")
+        print("\nManager Menu:") 
         print("1. View Staff")
         print("2. Edit Staff Details")
         print("3. View Sales Report")
